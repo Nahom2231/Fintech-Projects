@@ -6,7 +6,8 @@ import com.coopbank.onboarding.verification.entity.VerificationStatus;
 import com.coopbank.onboarding.verification.repository.VerificationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import com.coopbank.onboarding.verification.dto.VerifyOtpDto;
-
+import com.coopbank.onboarding.exception.VerificationException;
+import com.coopbank.onboarding.exception.ResourceNotFoundException;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +54,7 @@ public class VerificationService {
                             request.phoneNumber()
                     )
                     .orElseThrow(
-                            () -> new RuntimeException(
+                            () -> new ResourceNotFoundException(
                                     "Verification request not found"
                             )
                     );
@@ -62,7 +63,7 @@ public class VerificationService {
             verificationRequest.getStatus()
                     == VerificationStatus.VERIFIED
     ) {
-        throw new RuntimeException(
+        throw new VerificationException(
                 "OTP already verified"
         );
     }
@@ -94,7 +95,7 @@ public class VerificationService {
                     )
     ) {
 
-        throw new RuntimeException(
+        throw new VerificationException(
                 "Invalid OTP"
         );
     }

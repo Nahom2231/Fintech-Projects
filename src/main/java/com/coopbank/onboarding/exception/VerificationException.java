@@ -1,0 +1,11 @@
+package com.coopbank.onboarding.exception;
+
+public class VerificationException
+        extends RuntimeException {
+
+    public VerificationException(
+            String message
+    ) {
+        super(message);
+    }
+}
