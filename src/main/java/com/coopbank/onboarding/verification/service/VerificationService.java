@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -20,7 +21,32 @@ public class VerificationService {
 
     private final VerificationRequestRepository repository;
 
+    private void validateOtpRequestLimit(
+        String phoneNumber
+) {
+
+    LocalDateTime fiveMinutesAgo =
+            LocalDateTime.now()
+                    .minusMinutes(5);
+
+    List<VerificationRequest> requests =
+            repository.findByPhoneNumberAndCreatedAtAfter(
+                    phoneNumber,
+                    fiveMinutesAgo
+            );
+
+    if (requests.size() >= 3) {
+
+        throw new VerificationException(
+                "Too many OTP requests. Please try again later."
+        );
+    }
+}
+
     public void requestOtp(RequestOtpDto request) {
+
+                validateOtpRequestLimit(request.phoneNumber());
+                
 
         String otp =
                 String.valueOf(

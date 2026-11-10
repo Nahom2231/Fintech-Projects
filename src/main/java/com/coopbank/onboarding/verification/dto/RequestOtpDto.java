@@ -6,4 +6,6 @@ public record RequestOtpDto(
         @NotBlank(message = "Phone number is required")
         String phoneNumber
 ) {
+
+        
 }
