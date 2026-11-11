@@ -2,6 +2,7 @@ package com.coopbank.onboarding.customer.service;
 
 import com.coopbank.onboarding.customer.dto.RegisterCustomerRequest;
 import com.coopbank.onboarding.customer.entity.Customer;
+import com.coopbank.onboarding.customer.entity.CustomerStatus;
 import com.coopbank.onboarding.customer.repository.CustomerRepository;
 import com.coopbank.onboarding.exception.VerificationException;
 import com.coopbank.onboarding.verification.entity.VerificationStatus;
@@ -63,6 +64,9 @@ public class CustomerService {
                         .nationalId(
                                 request.nationalId()
                         )
+                        .status(
+                         CustomerStatus.PENDING_KYC
+                )
                         .createdAt(
                                 LocalDateTime.now()
                         )

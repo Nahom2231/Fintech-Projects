@@ -28,5 +28,8 @@ public class Customer {
     @Column(unique = true)
     private String nationalId;
 
+    @Enumerated(EnumType.STRING)
+    private CustomerStatus status;
+
     private LocalDateTime createdAt;
 }
