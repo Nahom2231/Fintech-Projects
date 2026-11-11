@@ -16,4 +16,7 @@ public interface CustomerRepository
 
     Optional<Customer>
     findByNationalId(String nationalId);
+
+      Optional<Customer>
+    findByEmail(String email);
 }
