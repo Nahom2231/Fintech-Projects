@@ -1,6 +1,8 @@
 package com.coopbank.onboarding.verification.repository;
 
 import com.coopbank.onboarding.verification.entity.VerificationRequest;
+import com.coopbank.onboarding.verification.entity.VerificationStatus;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -19,4 +21,10 @@ public interface VerificationRequestRepository
             String phoneNumber,
             LocalDateTime createdAt
     );
+
+    Optional<VerificationRequest>
+    findFirstByPhoneNumberAndStatusOrderByCreatedAtDesc(
+        String phoneNumber,
+        VerificationStatus status
+);
 }
