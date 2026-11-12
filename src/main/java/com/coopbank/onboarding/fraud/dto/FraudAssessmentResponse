@@ -1,0 +1,14 @@
+package com.coopbank.onboarding.fraud.dto;
+
+import com.coopbank.onboarding.fraud.entity.RiskLevel;
+
+public record FraudAssessmentResponse(
+
+        Integer score,
+
+        RiskLevel riskLevel,
+
+        String message
+
+) {
+}
