@@ -1,6 +1,9 @@
 package com.coopbank.onboarding.fraud.dto;
 
+import com.coopbank.onboarding.fraud.entity.FraudDecision;
 import com.coopbank.onboarding.fraud.entity.RiskLevel;
+
+import java.util.List;
 
 public record FraudAssessmentResponse(
 
@@ -8,7 +11,9 @@ public record FraudAssessmentResponse(
 
         RiskLevel riskLevel,
 
-        String message
+        FraudDecision decision,
+
+        List<String> triggeredRules
 
 ) {
 }
