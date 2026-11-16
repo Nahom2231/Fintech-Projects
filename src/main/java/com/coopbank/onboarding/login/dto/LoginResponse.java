@@ -4,7 +4,9 @@ public record LoginResponse(
 
         String status,
 
-        String message
+        String accessToken,
+
+        String refreshToken
 
 ) {
 }

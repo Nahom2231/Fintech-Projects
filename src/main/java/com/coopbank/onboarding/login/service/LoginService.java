@@ -9,6 +9,7 @@ import com.coopbank.onboarding.login.dto.LoginRequest;
 import com.coopbank.onboarding.login.dto.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.coopbank.onboarding.security.jwt.JwtService;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class LoginService {
 
     private final FraudService fraudService;
     private final ChallengeService challengeService;
+    private final JwtService jwtService;
 
     public LoginResponse login(
             LoginRequest request
@@ -36,7 +38,8 @@ public class LoginService {
         if (assessment.decision() == FraudDecision.REJECT) {
             return new LoginResponse(
                     "BLOCKED",
-                    "Login blocked due to high fraud risk"
+                    null,
+                    null
             );
         }
 
@@ -44,13 +47,25 @@ public class LoginService {
             challengeService.createChallenge(request.phoneNumber());
             return new LoginResponse(
                     "CHALLENGE_REQUIRED",
-                    "OTP sent for additional verification"
+                    null,
+                    null
             );
         }
 
-        return new LoginResponse(
-                "SUCCESS",
-                "Login successful"
+        String accessToken =
+        jwtService.generateAccessToken(
+                request.phoneNumber()
         );
+
+String refreshToken =
+        jwtService.generateRefreshToken(
+                request.phoneNumber()
+        );
+
+return new LoginResponse(
+        "SUCCESS",
+        accessToken,
+        refreshToken
+);
     }
 }

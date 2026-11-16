@@ -5,6 +5,9 @@ import com.coopbank.onboarding.challenge.entity.ChallengeStatus;
 import com.coopbank.onboarding.challenge.entity.LoginChallenge;
 import com.coopbank.onboarding.challenge.repository.LoginChallengeRepository;
 import com.coopbank.onboarding.exception.VerificationException;
+import com.coopbank.onboarding.login.dto.AuthenticationResponse;
+import com.coopbank.onboarding.security.jwt.JwtService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ChallengeService {
 
     private final LoginChallengeRepository repository;
+        private final JwtService jwtService;
 
     public void createChallenge(
             String phoneNumber
@@ -46,9 +50,10 @@ public class ChallengeService {
         );
     }
 
-    public String verifyChallenge(
-            VerifyChallengeRequest request
-    ) {
+   public AuthenticationResponse verifyChallenge(
+        VerifyChallengeRequest request
+)
+     {
 
         LoginChallenge challenge =
                 repository
@@ -93,11 +98,24 @@ public class ChallengeService {
         }
 
         challenge.setStatus(
-                ChallengeStatus.VERIFIED
+        ChallengeStatus.VERIFIED
+);
+
+repository.save(challenge);
+
+String accessToken =
+        jwtService.generateAccessToken(
+                challenge.getPhoneNumber()
         );
 
-        repository.save(challenge);
+String refreshToken =
+        jwtService.generateRefreshToken(
+                challenge.getPhoneNumber()
+        );
 
-        return "Challenge verified successfully";
+return new AuthenticationResponse(
+        accessToken,
+        refreshToken
+);
     }
 }
