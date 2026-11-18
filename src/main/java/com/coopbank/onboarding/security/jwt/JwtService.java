@@ -60,4 +60,19 @@ public class JwtService {
                 )
                 .compact();
     }
+
+       public String extractPhoneNumber(
+        String token
+        ) {
+
+       return Jwts.parser()
+            .verifyWith(
+                    getSigningKey()
+            )
+            .build()
+            .parseSignedClaims(token)
+            .getPayload()
+            .getSubject();
+       
+        }
 }

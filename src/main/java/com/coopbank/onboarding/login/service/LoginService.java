@@ -5,8 +5,11 @@ import com.coopbank.onboarding.fraud.service.FraudService;
 import com.coopbank.onboarding.fraud.service.FraudService.FraudAssessmentResponse;
 import com.coopbank.onboarding.fraud.service.FraudService.FraudDecision;
 import com.coopbank.onboarding.challenge.service.ChallengeService;
+import com.coopbank.onboarding.exception.VerificationException;
 import com.coopbank.onboarding.login.dto.LoginRequest;
 import com.coopbank.onboarding.login.dto.LoginResponse;
+import com.coopbank.onboarding.login.dto.RefreshTokenRequest;
+import com.coopbank.onboarding.login.dto.RefreshTokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.coopbank.onboarding.security.jwt.JwtService;
@@ -57,15 +60,43 @@ public class LoginService {
                 request.phoneNumber()
         );
 
-String refreshToken =
-        jwtService.generateRefreshToken(
+              String refreshToken =
+               jwtService.generateRefreshToken(
                 request.phoneNumber()
-        );
+                 );
 
 return new LoginResponse(
         "SUCCESS",
         accessToken,
         refreshToken
 );
+    }
+
+    public RefreshTokenResponse refreshAccessToken(
+        RefreshTokenRequest request
+       ) {
+
+        try{
+
+    String phoneNumber =
+            jwtService.extractPhoneNumber(
+                    request.refreshToken()
+            );
+
+    String accessToken =
+            jwtService.generateAccessToken(
+                    phoneNumber
+            );
+
+    return new RefreshTokenResponse(
+            accessToken
+    );
+} catch (Exception ex) {
+
+        throw new VerificationException(
+                "Invalid refresh token"
+        );
+    }
+       
     }
 }

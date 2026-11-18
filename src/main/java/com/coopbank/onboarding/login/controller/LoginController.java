@@ -2,6 +2,8 @@ package com.coopbank.onboarding.login.controller;
 
 import com.coopbank.onboarding.login.dto.LoginRequest;
 import com.coopbank.onboarding.login.dto.LoginResponse;
+import com.coopbank.onboarding.login.dto.RefreshTokenRequest;
+import com.coopbank.onboarding.login.dto.RefreshTokenResponse;
 import com.coopbank.onboarding.login.service.LoginService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,4 +25,16 @@ public class LoginController {
     ) {
         return loginService.login(request);
     }
+   @PostMapping("/refresh-token")
+public RefreshTokenResponse refreshAccessToken(
+
+        @RequestBody
+        RefreshTokenRequest request
+
+) {
+
+    return loginService.refreshAccessToken(
+            request
+    );
+}
 } 
