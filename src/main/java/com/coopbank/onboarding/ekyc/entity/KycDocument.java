@@ -1,6 +1,7 @@
 package com.coopbank.onboarding.ekyc.entity;
 
 import com.coopbank.onboarding.customer.entity.Customer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,5 +33,6 @@ public class KycDocument {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 }

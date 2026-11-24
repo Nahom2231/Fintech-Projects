@@ -6,7 +6,7 @@ import com.coopbank.onboarding.account.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -28,5 +28,11 @@ public class AccountController {
                 .createAccount(
                         request
                 );
+    }
+
+    @GetMapping
+    public List<Account> getAccounts() {
+
+        return accountService.getAccounts();
     }
 }

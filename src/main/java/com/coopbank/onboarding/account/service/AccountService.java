@@ -8,7 +8,7 @@ import com.coopbank.onboarding.customer.repository.CustomerRepository;
 import com.coopbank.onboarding.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -73,4 +73,9 @@ public class AccountService {
                 + (1000000
                 + new Random().nextInt(9000000));
     }
+
+    public List<Account> getAccounts() {
+
+    return accountRepository.findAll();
+}
 }

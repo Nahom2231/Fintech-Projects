@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.coopbank.onboarding.customer.entity.CustomerStatus;
 import com.coopbank.onboarding.ekyc.dto.ReviewKycRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -106,4 +107,8 @@ public class KycService {
             document
     );
 }
+
+    public List<KycDocument> getDocumentsByCustomerId(Long customerId) {
+        return kycRepository.findByCustomerId(customerId);
+    }
 }

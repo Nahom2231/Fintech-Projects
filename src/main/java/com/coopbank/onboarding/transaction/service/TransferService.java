@@ -164,7 +164,8 @@ public class TransferService {
       ) {
 
     return transactionRepository
-            .findBySourceAccountNumber(
+            .findBySourceAccountNumberOrDestinationAccountNumberOrderByCreatedAtDesc(
+                    accountNumber,
                     accountNumber
             )
             .stream()

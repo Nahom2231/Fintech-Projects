@@ -1,6 +1,7 @@
 package com.coopbank.onboarding.account.entity;
 
 import com.coopbank.onboarding.customer.entity.Customer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,5 +38,6 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 }

@@ -6,19 +6,14 @@ import java.util.List;
 
 public interface TransactionRepository
         extends JpaRepository<Transaction, Long> {
-       List<Transaction>
-       findBySourceAccountNumber(
-        String accountNumber
-       );
 
-      List<Transaction>
-      findByDestinationAccountNumber(
-        String accountNumber
-        );
-     
-        List<Transaction>
-      findTop5BySourceAccountNumberOrderByCreatedAtDesc(
-        String accountNumber
-);
+    List<Transaction> findBySourceAccountNumber(String accountNumber);
 
+    List<Transaction> findByDestinationAccountNumber(String accountNumber);
+
+    List<Transaction> findTop5BySourceAccountNumberOrderByCreatedAtDesc(String accountNumber);
+
+    List<Transaction> findBySourceAccountNumberOrDestinationAccountNumberOrderByCreatedAtDesc(
+            String sourceAccountNumber, String destinationAccountNumber
+    );
 }

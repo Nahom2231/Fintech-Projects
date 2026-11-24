@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import com.coopbank.onboarding.ekyc.dto.ReviewKycRequest;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/kyc")
@@ -43,4 +44,9 @@ public class KycController {
                     request
             );
    }
+
+    @GetMapping("/customer/{customerId}")
+    public List<KycDocument> getDocumentsByCustomerId(@PathVariable Long customerId) {
+        return kycService.getDocumentsByCustomerId(customerId);
+    }
 }

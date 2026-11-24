@@ -1,5 +1,6 @@
 package com.coopbank.onboarding.customer.controller;
 
+import com.coopbank.onboarding.customer.dto.CustomerResponse;
 import com.coopbank.onboarding.customer.dto.RegisterCustomerRequest;
 import com.coopbank.onboarding.customer.entity.Customer;
 import com.coopbank.onboarding.customer.service.CustomerService;
@@ -27,5 +28,10 @@ public class CustomerController {
                 .registerCustomer(
                         request
                 );
+    }
+
+    @GetMapping("/{id}")
+    public CustomerResponse getCustomerById(@PathVariable Long id) {
+        return customerService.getCustomerById(id);
     }
 }

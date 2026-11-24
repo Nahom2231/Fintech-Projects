@@ -1,9 +1,11 @@
 package com.coopbank.onboarding.customer.service;
 
+import com.coopbank.onboarding.customer.dto.CustomerResponse;
 import com.coopbank.onboarding.customer.dto.RegisterCustomerRequest;
 import com.coopbank.onboarding.customer.entity.Customer;
 import com.coopbank.onboarding.customer.entity.CustomerStatus;
 import com.coopbank.onboarding.customer.repository.CustomerRepository;
+import com.coopbank.onboarding.exception.ResourceNotFoundException;
 import com.coopbank.onboarding.exception.VerificationException;
 import com.coopbank.onboarding.verification.entity.VerificationStatus;
 import com.coopbank.onboarding.verification.repository.VerificationRequestRepository;
@@ -74,6 +76,24 @@ public class CustomerService {
 
         return customerRepository.save(
                 customer
+        );
+    }
+
+    public CustomerResponse getCustomerById(Long id) {
+        Customer customer = customerRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                "Customer not found with id: " + id
+                        )
+                );
+
+        return new CustomerResponse(
+                customer.getId(),
+                customer.getFullName(),
+                customer.getPhoneNumber(),
+                customer.getEmail(),
+                customer.getNationalId()
         );
     }
 }
