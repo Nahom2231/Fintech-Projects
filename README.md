@@ -3,6 +3,7 @@
 [![Java 21](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Spring Boot 3](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)](https://spring.io/projects/spring-data-jpa)
+[![CI](https://github.com/Nahom2231/Fintech-Projects/actions/workflows/ci.yml/badge.svg)](https://github.com/Nahom2231/Fintech-Projects/actions)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
 A backend microservice for banking customer onboarding and automated two-factor identity verification (OTP). Built with **Java 21**, **Spring Boot 3**, and **Spring Data JPA**, the service handles secure phone verification, time-restricted OTP lifecycles, and verification state persistence against a PostgreSQL database.
@@ -28,6 +29,27 @@ A backend microservice for banking customer onboarding and automated two-factor 
   - Layered architecture separating Controller, Service, and Repository concerns.
 
 ---
+
+### 🔄 OTP Verification Sequence & Lifecycle
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Mobile / Web Client
+    participant Controller as VerificationController
+    participant Service as VerificationService
+    participant Repo as VerificationRequestRepository
+    participant DB as PostgreSQL Database
+
+    Client->>Controller: POST /api/verifications/request-otp (phoneNumber)
+    Controller->>Service: requestOtp(RequestOtpDto)
+    Note over Service: Generate 6-digit random OTP<br/>Set 5-minute expiration window
+    Service->>Repo: save(VerificationRequest: PENDING)
+    Repo->>DB: INSERT INTO verification_request
+    DB-->>Repo: Saved entity
+    Service-->>Controller: Completed
+    Controller-->>Client: 200 OK ("OTP Generated Successfully")
+```
 
 ## 🏛️ Project Structure
 
